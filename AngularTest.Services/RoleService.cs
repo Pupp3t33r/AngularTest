@@ -32,7 +32,7 @@ public class RoleService : IRoleService
         return await dbContext.SaveChangesAsync();
     }
 
-    public async Task<IEnumerable<RoleDto>> GetAllRoles()
+    public async Task<List<RoleDto>> GetAllRoles()
     {
         return await dbContext.Roles.ProjectTo<RoleDto>(mapper.ConfigurationProvider).ToListAsync();
     }

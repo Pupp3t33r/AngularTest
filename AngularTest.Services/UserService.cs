@@ -57,13 +57,13 @@ public class UserService : IUserService
         var user = await dbContext.Users.Include(x=>x.Roles)
                                         .FirstOrDefaultAsync(x=>x.Id==UserId);
         if (user == null) return -1;
-        user.Roles = Enumerable.Empty<Role>();
+        user.Roles.Clear();
         var roles_db = await dbContext.Roles.ToListAsync();
         foreach (var role in roles)
         {
             var roleToAdd = roles_db.FirstOrDefault(x => x.Id == role);
             if (roleToAdd is null) return -1;
-            user.Roles = user.Roles.Append(roleToAdd);
+            user.Roles.Add(roleToAdd);
         }
         return await dbContext.SaveChangesAsync();
     } 

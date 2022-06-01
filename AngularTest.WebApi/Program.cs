@@ -15,7 +15,7 @@ builder.Services.AddCors(options =>
     options.AddPolicy(name: AngularFront,
                       policy =>
                       {
-                          policy.WithOrigins(builder.Configuration.GetConnectionString("Angular"))
+                          policy.AllowAnyOrigin()
                           .AllowAnyHeader()
                           .AllowAnyMethod();
                       });

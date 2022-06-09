@@ -6,7 +6,7 @@ namespace AngularTest.WebApi.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-public class UsersController: Controller
+public class UsersController : Controller
 {
     private readonly IUserService userService;
 
@@ -16,7 +16,7 @@ public class UsersController: Controller
     }
 
     [HttpPost]
-    public async Task<ActionResult<int>> Add(UserDto user)
+    public async Task<ActionResult<UserDto>> Add(UserDto user)
     {
         try
         {
@@ -26,7 +26,8 @@ public class UsersController: Controller
                 var result = await userService.UpdateRolesOnUser(user.RoleIds, newId);
                 if (result == -1) return BadRequest("No Such Role Ids");
             }
-            return Ok(newId);
+            var newUser = await userService.GetUserById(newId);
+            return Ok(newUser);
         }
         catch (Exception)
         {
@@ -70,7 +71,7 @@ public class UsersController: Controller
         try
         {
             var result = await userService.UpdateUser(user);
-            if (result<1) return BadRequest();
+            if (result < 1) return BadRequest();
             var rolesUpdated = await userService.UpdateRolesOnUser(user.RoleIds, user.Id);
             if (result == -1) return BadRequest("no such roles");
             return Ok();
@@ -82,14 +83,14 @@ public class UsersController: Controller
         }
     }
 
-    [HttpDelete]
+    [HttpDelete("{id}")]
     public async Task<ActionResult> DeleteUser(int id)
     {
         try
         {
             var result = await userService.DeleteUser(id);
             if(result<1) return BadRequest();
-            return Ok();
+            return Ok(id);
         }
         catch (Exception)
         {

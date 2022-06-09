@@ -1,0 +1,26 @@
+.container {
+  margin: 2rem;
+}
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+  color: darkgoldenrod;
+}
+
+thead {
+  background-color: blanchedalmond;
+  height: 2rem;
+}
+
+td {
+  padding: 0.5rem;
+}
+
+tr:nth-child(even) {
+  background-color: antiquewhite;
+}
+
+td {
+  text-align: center;
+}

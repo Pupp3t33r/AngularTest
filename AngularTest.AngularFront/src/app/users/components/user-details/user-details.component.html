@@ -1,0 +1,26 @@
+<div>
+  <h3>Id: {{(user$|async)?.id}}</h3>
+  <form [formGroup]="userForm" (ngSubmit)="submit(userForm.value)">
+    <div class="formControl">
+      <label for="user-name">User Name:</label>
+      <input required formControlName="name" type="text" placeholder="User Name" id="user-name" />
+    </div>
+    <div class="formControl">
+      <label for="email">Email:</label>
+      <input required formControlName="email" type="text" placeholder="Email" id="email" />
+    </div>
+    <div class="formControl">
+      <label for="roles">Roles:</label>
+      <select multiple formControlName="roleIds" placeholder="Roles" id="roles">
+        <option *ngFor="let role of roles$|async" [ngValue]=role.id>{{role.roleName}}</option>
+      </select>
+    </div>
+    <div>
+      <button (click)="reset()">Reset</button>
+      <button type="submit">
+        <span *ngIf="userId>-1">Update</span>
+        <span *ngIf="userId===-1">Add</span>
+      </button>
+    </div>
+  </form>
+</div>

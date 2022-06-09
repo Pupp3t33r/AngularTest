@@ -21,19 +21,19 @@ namespace AngularTest.WebApi.Migrations
                 (
                     table: "Roles",
                     columns: roleColumns,
-                    values: new object[] { roleId++, "powerUser" }
+                    values: new object[] { roleId++, "manager" }
                 );
             migrationBuilder.InsertData
                 (
                     table: "Roles",
                     columns: roleColumns,
-                    values: new object[] { roleId++, "user" }
+                    values: new object[] { roleId++, "sales" }
                 );
             migrationBuilder.InsertData
                 (
                     table: "Roles",
                     columns: roleColumns,
-                    values: new object[] { roleId++, "guest" }
+                    values: new object[] { roleId++, "warehouse" }
                 );
 
             int userId = 1;

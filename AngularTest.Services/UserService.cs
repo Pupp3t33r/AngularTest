@@ -20,6 +20,7 @@ public class UserService : IUserService
 
     public async Task<int> CreateUser(UserDto user)
     {
+        user.Id = 0;
         var userToAdd = mapper.Map<User>(user);
         dbContext.Add(userToAdd);
         await dbContext.SaveChangesAsync();

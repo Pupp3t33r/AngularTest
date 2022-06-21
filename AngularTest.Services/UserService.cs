@@ -22,7 +22,7 @@ public class UserService : IUserService
     {
         user.Id = 0;
         var userToAdd = mapper.Map<User>(user);
-        dbContext.Add(userToAdd);
+        dbContext.Users.Add(userToAdd);
         await dbContext.SaveChangesAsync();
         return userToAdd.Id;
     }
@@ -48,24 +48,24 @@ public class UserService : IUserService
 
     public async Task<int> UpdateUser(UserDto user)
     {
-        var entity = dbContext.Users.Attach(mapper.Map<User>(user));
-        entity.State = EntityState.Modified;
+        var entity = await dbContext.Users.Include(x=>x.Roles).FirstOrDefaultAsync(x=>x.Id==user.Id);
+        entity = mapper.Map(user, entity);
         return await dbContext.SaveChangesAsync();
     }
 
-    public async Task<int> UpdateRolesOnUser(IEnumerable<int> roles, int UserId)
-    {
-        var user = await dbContext.Users.Include(x=>x.Roles)
-                                        .FirstOrDefaultAsync(x=>x.Id==UserId);
-        if (user == null) return -1;
-        user.Roles.Clear();
-        var roles_db = await dbContext.Roles.ToListAsync();
-        foreach (var role in roles)
-        {
-            var roleToAdd = roles_db.FirstOrDefault(x => x.Id == role);
-            if (roleToAdd is null) return -1;
-            user.Roles.Add(roleToAdd);
-        }
-        return await dbContext.SaveChangesAsync();
-    } 
+    //public async Task<int> UpdateRolesOnUser(IEnumerable<int> roles, int UserId)
+    //{
+    //    var user = await dbContext.Users.Include(x=>x.Roles)
+    //                                    .FirstOrDefaultAsync(x=>x.Id==UserId);
+    //    if (user == null) return -1;
+    //    user.Roles.Clear();
+    //    var roles_db = await dbContext.Roles.ToListAsync();
+    //    foreach (var role in roles)
+    //    {
+    //        var roleToAdd = roles_db.FirstOrDefault(x => x.Id == role);
+    //        if (roleToAdd is null) return -1;
+    //        user.Roles.Add(roleToAdd);
+    //    }
+    //    return await dbContext.SaveChangesAsync();
+    //} 
 }

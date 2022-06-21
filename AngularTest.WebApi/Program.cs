@@ -1,6 +1,8 @@
 using AngularTest.Data;
 using AngularTest.Services;
 using AngularTest.Services.MapperProfiles;
+using AutoMapper;
+using AutoMapper.EquivalencyExpression;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -27,7 +29,11 @@ builder.Services.AddDbContext<UserDbContext>(options =>
         x => x.MigrationsAssembly("AngularTest.WebApi"));
 });
 
-builder.Services.AddAutoMapper(typeof(UserProfile).Assembly);
+builder.Services.AddAutoMapper((serviceProvider, automapper) =>
+{
+    automapper.AddCollectionMappers();
+    automapper.UseEntityFrameworkCoreModel<UserDbContext>(serviceProvider);
+}, typeof(UserProfile).Assembly);
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

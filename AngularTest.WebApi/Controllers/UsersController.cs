@@ -21,11 +21,6 @@ public class UsersController : Controller
         try
         {
             var newId = await userService.CreateUser(user);
-            if (user.RoleIds is not null && user.RoleIds.Any())
-            {
-                var result = await userService.UpdateRolesOnUser(user.RoleIds, newId);
-                if (result == -1) return BadRequest("No Such Role Ids");
-            }
             var newUser = await userService.GetUserById(newId);
             return Ok(newUser);
         }
@@ -72,8 +67,6 @@ public class UsersController : Controller
         {
             var result = await userService.UpdateUser(user);
             if (result < 1) return BadRequest();
-            var rolesUpdated = await userService.UpdateRolesOnUser(user.RoleIds, user.Id);
-            if (result == -1) return BadRequest("no such roles");
             return Ok();
         }
         catch (Exception)

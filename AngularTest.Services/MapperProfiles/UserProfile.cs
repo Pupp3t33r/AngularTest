@@ -9,10 +9,12 @@ public class UserProfile: Profile
     public UserProfile()
     {
         CreateMap<User, UserDto>().ForMember(x=>x.RoleIds, 
-            opt=>opt.MapFrom(y=>y.Roles.Select(z=>z.Id)));
+            opt=>opt.MapFrom(x=>x.UserRoles.Select(y=>y.RolesId)));
 
-        CreateMap<UserDto, User>().ForMember(x => x.Roles,
-                opt => opt.Ignore());
+        CreateMap<UserDto, User>().ForMember(x => x.UserRoles,
+            opt => opt.MapFrom(
+          (dto, ent) => dto.RoleIds
+                                .Select(id => new UserRole { UsersId = dto.Id, RolesId = id })));
 
         CreateMap<Role, RoleDto>().ReverseMap();
     }

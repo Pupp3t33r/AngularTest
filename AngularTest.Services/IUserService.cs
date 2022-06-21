@@ -8,5 +8,5 @@ public interface IUserService
     Task<UserDto?> GetUserById(int id);
     Task<int> UpdateUser(UserDto user);
     Task<int> DeleteUser(int id);
-    Task<int> UpdateRolesOnUser(IEnumerable<int> roles, int UserId);
+    //Task<int> UpdateRolesOnUser(IEnumerable<int> roles, int UserId);
 }

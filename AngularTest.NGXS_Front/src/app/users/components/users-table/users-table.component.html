@@ -1,0 +1,25 @@
+<div class="container">
+  <table>
+    <thead>
+      <th>Id</th>
+      <th>Name</th>
+      <th>Email</th>
+      <th>Roles</th>
+      <th>Actions</th>
+    </thead>
+    <tbody>
+      <tr *ngFor="let user of users$|async">
+        <td>{{user.id}}</td>
+        <td>{{user.name}}</td>
+        <td>{{user.email}}</td>
+        <td>
+          <div class="user-role" *ngFor="let roleId of user.roleIds">{{userRolesMap.get(roleId)}}</div>
+        </td>
+        <td>
+          <button (click)="selectUser(user.id)">Select</button>
+          <button (click)="deleteUser(user.id)">Delete</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

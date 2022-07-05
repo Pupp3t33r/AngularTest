@@ -1,0 +1,18 @@
+export enum ActionTypes {
+  LOAD = '[Users Table] Users loading',
+  LOAD_SUCCESS = '[Users API] Users loaded successfully',
+  LOAD_ERROR = '[Users API] Error loading users',
+  ROLES_LOAD = '[Users Table] Roles loading',
+  ROLES_LOAD_SUCCESS = '[Users API] Roles loaded successfully',
+  ROLES_LOAD_ERROR = '[Users API] Error loading roles',
+  SELECT_USER = '[Users Table] User Selected',
+  DELETE_USER = '[Users Table] Deleting user',
+  DELETE_USER_SUCCESS = '[Users API] User deleted successfully',
+  DELETE_USER_ERROR = '[Users API] Error deleting user',
+  UPDATE_USER = '[Users Table] Updating user',
+  UPDATE_USER_SUCCESS = '[Users API] User updated successfully',
+  UPDATE_USER_ERROR = '[Users API] Error updating user',
+  ADD_USER = '[Users Table] Adding user',
+  ADD_USER_SUCCESS = '[Users API] User added successfully',
+  ADD_USER_ERROR = '[Users API] Error adding user',
+}

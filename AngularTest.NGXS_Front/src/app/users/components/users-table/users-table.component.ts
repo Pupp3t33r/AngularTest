@@ -1,17 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { select, Store } from '@ngrx/store';
+import { Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
-import { loadRolesAction } from '../../store/actions/roles.action';
-import {
-  deleteUser,
-  loadUsersAction,
-  selectUser,
-} from '../../store/actions/users.action';
-import {
-  isLoadingSelector,
-  userRolesSelector,
-  usersListSelector,
-} from '../../store/selectors';
+import { Roles } from '../../store/roles/roles.actions';
+import { RolesState } from '../../store/roles/roles.state';
+import { Users } from '../../store/users/users.actions';
+import { UsersState } from '../../store/users/users.state';
 import { UserRoleInterface } from '../../types/user-role.interface';
 import { UserModelInterface } from '../../types/user.interface';
 
@@ -21,22 +14,19 @@ import { UserModelInterface } from '../../types/user.interface';
   styleUrls: ['./users-table.component.scss'],
 })
 export class UsersTableComponent implements OnInit {
-  isLoading$: Observable<boolean>;
-  users$: Observable<UserModelInterface[]>;
-  roles$: Observable<UserRoleInterface[]>;
+  @Select(UsersState.isLoading) isLoading$!: Observable<boolean>;
+  @Select(UsersState.users) users$!: Observable<UserModelInterface[]>;
+  @Select(RolesState.roles) roles$!: Observable<UserRoleInterface[]>;
   roles!: UserRoleInterface[];
   userRolesMap: Map<number, string> = new Map();
 
   constructor(private store: Store) {
-    this.isLoading$ = this.store.pipe(select(isLoadingSelector));
-    this.users$ = this.store.pipe(select(usersListSelector));
-    this.roles$ = this.store.pipe(select(userRolesSelector));
     this.refreshUserRolesMap();
   }
 
   ngOnInit(): void {
-    this.store.dispatch(loadUsersAction());
-    this.store.dispatch(loadRolesAction());
+    this.store.dispatch(new Users.LoadUsers());
+    this.store.dispatch(new Roles.LoadRoles());
   }
 
   refreshUserRolesMap() {
@@ -50,10 +40,10 @@ export class UsersTableComponent implements OnInit {
   }
 
   selectUser(id: number) {
-    this.store.dispatch(selectUser({ id }));
+    this.store.dispatch(new Users.SelectUser({ id: id }));
   }
 
   deleteUser(id: number) {
-    this.store.dispatch(deleteUser({ id }));
+    this.store.dispatch(new Users.DeleteUser({ id: id }));
   }
 }

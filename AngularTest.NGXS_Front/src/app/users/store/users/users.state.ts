@@ -115,8 +115,10 @@ export class UsersState {
     action: Users.UpdateUser
   ) {
     return this.usersService.updateUser(action.payload.user).pipe(
-      map((updatedUser) => {
-        return ctx.dispatch(new Users.UpdateUserSuccess({ user: updatedUser }));
+      map(() => {
+        return ctx.dispatch(
+          new Users.UpdateUserSuccess({ user: action.payload.user })
+        );
       }),
 
       catchError((error) => {
@@ -161,11 +163,14 @@ export class UsersState {
   }
 
   @Selector()
-  static selectedUser() {
-    return createSelector([UsersState], (state: UserTableStateInterface) => {
-      return (
-        state.userList.find((user) => user.id === state.selectedUserId) || null
-      );
-    });
+  static selectedUser(state: UserTableStateInterface) {
+    return (
+      state.userList.find((user) => user.id === state.selectedUserId) || {
+        id: -1,
+        email: '',
+        name: '',
+        roleIds: [],
+      }
+    );
   }
 }

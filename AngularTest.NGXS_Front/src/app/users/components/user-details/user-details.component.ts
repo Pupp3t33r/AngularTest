@@ -15,8 +15,7 @@ import { UserModelInterface } from '../../types/user.interface';
   styleUrls: ['./user-details.component.scss'],
 })
 export class UserDetailsComponent {
-  @Select(UsersState.selectedUser)
-  user$!: Observable<UserModelInterface | null>;
+  user$!: Observable<UserModelInterface>;
 
   @Select(UsersState.selectedUserId) userId$!: Observable<number>;
   userId: number;
@@ -25,6 +24,7 @@ export class UserDetailsComponent {
   userForm: FormGroup;
 
   constructor(private store: Store) {
+    this.user$ = store.select(UsersState.selectedUser);
     this.userId = -1;
     this.userForm = new FormGroup({
       name: new FormControl(''),
@@ -68,10 +68,10 @@ export class UserDetailsComponent {
 
   reset(): void {
     this.store.dispatch(new Users.SelectUser({ id: -1 }));
-    this.userForm.setValue({
-      name: '',
-      email: '',
-      roleIds: [],
-    });
+    // this.userForm.setValue({
+    //   name: '',
+    //   email: '',
+    //   roleIds: [],
+    // });
   }
 }
